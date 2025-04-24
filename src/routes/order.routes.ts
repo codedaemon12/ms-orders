@@ -3,7 +3,7 @@ import { OrderController } from '../controllers/order.controller';
 
 const router = express.Router();
 
-router.post('/orders', OrderController.create);
-router.get('/orders', OrderController.getAll);
+router.post('/', OrderController.create);
+router.get('/', OrderController.getAll);
 
 export default router;
