@@ -1,3 +1,4 @@
+
 export interface Customer {
     customer_id: string;
     first_name  : string;
@@ -10,3 +11,4 @@ export interface Customer {
     created_at: Date;
     updated_at: Date;
   }
+
