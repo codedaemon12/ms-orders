@@ -8,5 +8,7 @@ router.post('/', CustomerController.create);
 
 router.get('/:id', async (req, res) => { CustomerController.getCustomerById(req, res); });
 
+router.put('/:id', async (req, res) => { CustomerController.update(req, res); });
+
 
 export default router;

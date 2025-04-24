@@ -45,6 +45,37 @@ export const CustomerService = {
             created_at: row['created_at'],
             updated_at: row['updated_at'],
         } as Customer;
+    },
+    async update(customer_id: UUID, updates: Partial<Omit<Customer, 'customer_id' | 'created_at' | 'updated_at'>>): Promise<Customer | null> {
+        const existingCustomer = await this.findCustomerById(customer_id);
+        if (!existingCustomer) {
+            return null;
+        }
+
+        const updated_at = new Date();
+        const updatedCustomer = {
+            ...existingCustomer,
+            ...updates,
+            updated_at,
+        };
+
+        await cassandraClient.execute(
+            'UPDATE customers SET first_name = ?, last_name = ?, addr_line1 = ?, addr_line2 = ?, zip_code = ?, cust_state = ?, city = ?, updated_at = ? WHERE customer_id = ?',
+            [
+                updatedCustomer.first_name,
+                updatedCustomer.last_name,
+                updatedCustomer.addr_line1,
+                updatedCustomer.addr_line2,
+                updatedCustomer.zip_code,
+                updatedCustomer.cust_state,
+                updatedCustomer.city,
+                updated_at,
+                customer_id,
+            ],
+            { prepare: true }
+        );
+
+        return updatedCustomer as Customer;
     }
 };
 
