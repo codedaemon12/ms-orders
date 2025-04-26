@@ -4,6 +4,8 @@ import orderRoutes from './routes/order.routes';
 import customerRoutes from './routes/customer.routes';
 import { cassandraClient } from './config/cassandra';
 // import { logger } from './utils/logger';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger.config';
 
 dotenv.config();
 
@@ -18,7 +20,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/orders', orderRoutes); 
 app.use('/api/customers', customerRoutes);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // import express from 'express';
